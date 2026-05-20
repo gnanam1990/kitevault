@@ -13,6 +13,16 @@ The idea: hold USDC.e (or any ERC-20) in a contract you own. Authorize one **age
 | `contracts/`      | Foundry: `KiteVault.sol` + `VaultFactory.sol` + tests | **21 tests pass** locally. Testnet only. |
 | `web/`            | Vite + React + wagmi + RainbowKit dashboard | Ships v0.1              |
 
+## Live deployment
+
+- Web app: <https://kitevault.vercel.app>
+- Host: Vercel (`kitevault`)
+- Deployed package: `web`
+- Build: `pnpm build`
+- Output: `dist`
+
+The hosted dashboard is live. Vault creation requires the relevant `VITE_VAULT_FACTORY_*` environment variable to point at a deployed factory. Contracts are testnet-only and unaudited in v0.1.
+
 ## Quickstart
 
 ### Contracts
