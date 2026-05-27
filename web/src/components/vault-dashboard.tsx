@@ -1,6 +1,5 @@
 import { useEffect, useState } from "react";
 import { useAccount, useReadContracts, useChainId, useSwitchChain } from "wagmi";
-import { ConnectButton } from "@rainbow-me/rainbowkit";
 import { Loader2, Plus, ArrowDownToLine, Settings, AlertTriangle, Pause, Play } from "lucide-react";
 import { useWriteContract } from "wagmi";
 
@@ -14,6 +13,7 @@ import { AgentRulesEditor, type Rules } from "./agent-rules-editor";
 import { EmergencyRevokeButton } from "./emergency-revoke-button";
 import { PreviewBadge } from "./preview-badge";
 import { TxStatus, type TxState } from "./tx-status";
+import { WalletConnectButton } from "./wallet-connect-button";
 import { formatAmount } from "../lib/format";
 
 interface Props {
@@ -309,7 +309,7 @@ export function VaultDashboard({ vaultAddress, network }: Props) {
                 You're not the owner of this vault. Connect with the owner address to deposit,
                 withdraw, or edit agent rules.
               </p>
-              {!isConnected && <ConnectButton />}
+              {!isConnected && <WalletConnectButton />}
             </section>
           )}
         </aside>

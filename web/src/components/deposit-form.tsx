@@ -1,9 +1,9 @@
 import { useState } from "react";
 import { parseUnits } from "viem";
 import { useAccount, useWriteContract, useReadContract } from "wagmi";
-import { ConnectButton } from "@rainbow-me/rainbowkit";
 import { KITE_VAULT_ABI, ERC20_ABI } from "../lib/vault-abi";
 import { TxStatus, type TxState } from "./tx-status";
+import { WalletConnectButton } from "./wallet-connect-button";
 import type { KiteNetwork } from "../lib/kite-chain";
 
 interface Props {
@@ -70,7 +70,7 @@ export function DepositForm({
     return (
       <div className="flex flex-col items-center gap-2">
         <p className="text-xs text-kite-fg/60">Connect a wallet to deposit</p>
-        <ConnectButton label="Connect" />
+        <WalletConnectButton label="Connect" />
       </div>
     );
   }

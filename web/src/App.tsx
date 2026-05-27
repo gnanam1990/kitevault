@@ -1,7 +1,7 @@
 import { useEffect, useState } from "react";
-import { WagmiProvider, useAccount, useWriteContract, useReadContract, useChainId, useSwitchChain } from "wagmi";
+import { WagmiProvider, createConfig, http, useAccount, useWriteContract, useReadContract, useChainId, useSwitchChain } from "wagmi";
+import { injected } from "wagmi/connectors";
 import { QueryClient, QueryClientProvider } from "@tanstack/react-query";
-import { RainbowKitProvider, getDefaultConfig, lightTheme, ConnectButton } from "@rainbow-me/rainbowkit";
 import { Loader2, Plus, Search, AlertTriangle } from "lucide-react";
 
 import { kiteMainnet, kiteTestnet, isValidAddress, type KiteNetwork, TESTNET_USDT_ADDRESS } from "./lib/kite-chain";
@@ -12,25 +12,20 @@ import { SiteHeader } from "./components/site-header";
 import { SiteFooter } from "./components/site-footer";
 import { AuditWarningBanner } from "./components/audit-warning-banner";
 import { VaultDashboard } from "./components/vault-dashboard";
+import { WalletConnectButton } from "./components/wallet-connect-button";
 
 const NETWORK_STORAGE_KEY = "kitevault:network";
-const WALLETCONNECT_PROJECT_ID = "00000000000000000000000000000000";
 
-const wagmiConfig = getDefaultConfig({
-  appName: "KiteVault",
-  projectId: WALLETCONNECT_PROJECT_ID,
+const wagmiConfig = createConfig({
   chains: [kiteMainnet, kiteTestnet],
-  ssr: false,
+  connectors: [injected()],
+  transports: {
+    [kiteMainnet.id]: http(kiteMainnet.rpcUrls.default.http[0]),
+    [kiteTestnet.id]: http(kiteTestnet.rpcUrls.default.http[0]),
+  },
 });
 
 const queryClient = new QueryClient();
-
-const rainbowTheme = lightTheme({
-  accentColor: "#9B8564",
-  accentColorForeground: "#FEF8F0",
-  borderRadius: "medium",
-  fontStack: "system",
-});
 
 type Route = { name: "landing" } | { name: "vault"; address: `0x${string}` };
 
@@ -256,7 +251,7 @@ function CreateVaultCard({
           <p className="text-xs text-kite-fg/60 mb-3">
             Connect a wallet to deploy your own vault on {network}.
           </p>
-          <ConnectButton label="Connect wallet" />
+          <WalletConnectButton label="Connect wallet" />
         </>
       ) : existingVault && existingVault !== "0x0000000000000000000000000000000000000000" ? (
         <>
@@ -297,9 +292,7 @@ export default function App() {
   return (
     <WagmiProvider config={wagmiConfig}>
       <QueryClientProvider client={queryClient}>
-        <RainbowKitProvider theme={rainbowTheme} appInfo={{ appName: "KiteVault" }}>
-          <InnerApp />
-        </RainbowKitProvider>
+        <InnerApp />
       </QueryClientProvider>
     </WagmiProvider>
   );

@@ -1,6 +1,6 @@
 import { Globe } from "lucide-react";
-import { ConnectButton } from "@rainbow-me/rainbowkit";
 import { KiteLogo } from "./kite-logo";
+import { WalletConnectButton } from "./wallet-connect-button";
 import type { KiteNetwork } from "../lib/kite-chain";
 
 interface Props {
@@ -41,7 +41,7 @@ export function SiteHeader({ network, onToggleNetwork, onNavigate }: Props) {
             <Globe className="w-3.5 h-3.5" />
             <span>{network === "mainnet" ? "Mainnet ⚠" : "Testnet"}</span>
           </button>
-          <ConnectButton chainStatus="icon" showBalance={false} accountStatus={{ smallScreen: "avatar", largeScreen: "address" }} />
+          <WalletConnectButton compact />
         </div>
       </div>
     </header>
